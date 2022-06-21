@@ -1,0 +1,97 @@
+﻿@using OilBusiness.Models.ViewModels
+@model ProductVM
+
+<form method="post" enctype="multipart/form-data">
+    <input asp-for="Product.Id" hidden></input>
+    <input asp-for="Product.ImageUrl" hidden></input>
+    
+    <div class="border p-3 mt-4">
+        <div class="row pb-2">
+            <h2 class="text-primary">
+                @(Model.Product.Id!=0? "Update":"Create") Products
+            </h2>
+            <hr></hr>
+        </div>
+        @*<div asp-validation-summary="All"></div>*@
+        <div class="row pt-4">
+            <div class="col-8 mb-3">
+            <label asp-for="Product.Name"></label>
+            <input asp-for="Product.Name" class="form-control"></input>
+            <span asp-validation-for="Product.Name" class="text-danger"></span>
+        </div>
+        <div class="col-8 mb-3">
+            <label asp-for="Product.ListPrice"></label>
+            <input asp-for="Product.ListPrice" class="form-control"></input>
+            <span asp-validation-for="Product.ListPrice" class="text-danger"></span>
+        </div>
+         <div class="col-4 p-3 mb-4">
+            <div>
+                <img src="@Model.Product.ImageUrl" width="100%" style="border-radius:5px;border:1px solid"/>
+            </div>
+        </div>
+        </div>
+        
+        <div class="mb-3">
+            <label asp-for="Product.Price"></label>
+            <input asp-for="Product.Price" class="form-control"></input>
+            <span asp-validation-for="Product.Price" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Product.Price25"></label>
+            <input asp-for="Product.Price25" class="form-control"></input>
+            <span asp-validation-for="Product.Price25" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Product.Price50"></label>
+            <input asp-for="Product.Price50" class="form-control"></input>
+            <span asp-validation-for="Product.Price50" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Product.ImageUrl"></label>
+            <input type="file" id="uploadBox" name="file" class="form-control"></input>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Product.CategoryId"></label>
+            <select asp-for="Product.CategoryId" asp-items="@Model.CategoryList" class="form-control">
+                <option selected>--Select Category--</option>
+            </select>
+            <span asp-validation-for="Product.CategoryId" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Product.BusinessTypeId"></label>
+            <select asp-for="Product.BusinessTypeId" asp-items="@Model.BusinessTypeList" class="form-control">
+                <option selected>--Select Category--</option>
+            </select>
+            <span asp-validation-for="Product.BusinessTypeId" class="text-danger"></span>
+        </div>
+        
+        <div>
+            @if(Model.Product.Id!=0)
+            {
+                <button type="submit" class="btn btn-primary" stype="width:150px">Update</button>
+            }
+            else
+            {
+                <button type="submit" onClick="return ValidateInput()" class="btn btn-primary" stype="width:150px">Create</button>
+            }
+            <a asp-controller="Product" asp-action="Index" class="btn btn-secondary" style="width:150px">Back to List</a>
+        </div>
+    </div>
+   
+</form>
+
+@section Scripts{
+    <script>
+        function ValidateInput(){
+            if(document.getElementById("uploadBox").value==""){
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Oops...',
+                  text: 'Please upload image!',
+                });
+                return false;
+            }
+            return true;
+        }
+    </script>
+}
